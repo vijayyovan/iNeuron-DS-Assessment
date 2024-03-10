@@ -1,0 +1,37 @@
+You have an input dictionary given,
+
+input_dict = {"abc":{"def":{"ghi":{"jkl":{"mno":{"pqr":{"stu":{"vwx":{"yz":"you are finally here !!!"}}}}}}}}}
+
+Task:  You have to write a Python function that will take this input and print it like that,
+
+
+def print_transformed_dict(input_dict):
+    def transform_dict(d):
+        output = {}
+        key_path = []
+
+        def build_output(current_dict):
+            if isinstance(current_dict, dict):
+                for key, value in current_dict.items():
+                    key_path.append(key)
+                    if isinstance(value, dict):
+                        build_output(value)
+                    else:
+                        # Handle the final value differently to include it in the output
+                        output[key_path[-1]] = [value]
+                    # Build the output for all keys in the path
+                    for i in range(len(key_path) - 1):
+                        output[key_path[i]] = key_path[i + 1:]
+                    key_path.pop()
+
+        build_output(d)
+        return output
+
+    transformed_dict = transform_dict(input_dict)
+
+
+
+    print(transformed_dict)
+
+# Use the function with the provided input dictionary
+print_transformed_dict({"abc":{"def":{"ghi":{"jkl":{"mno":{"pqr":{"stu":{"vwx":{"yz":"you are finally here !!!"}}}}}}}}})
