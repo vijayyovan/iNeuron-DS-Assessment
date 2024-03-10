@@ -1,0 +1,14 @@
+class StallManager:
+    def __init__(self, stalls):
+        self.stalls = sorted(stalls)
+
+    def max_min_distance(self, k):
+        # ... (binary search logic) ...
+
+    def place_horses(self, min_distance):
+        # ... (same logic as before) ...
+
+# Example usage
+manager = StallManager([1, 2, 4, 8, 9])
+result = manager.max_min_distance(3)
+print(result) 
