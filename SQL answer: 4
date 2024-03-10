@@ -1,0 +1,8 @@
+SELECT 
+    e.Manager_Id, 
+    m.Emp_name AS Manager, 
+    AVG(e.Salary) AS Average_Salary_Under_Manager
+FROM 
+    Employees e
+JOIN 
+    Employees m ON
