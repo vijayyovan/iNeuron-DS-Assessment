@@ -1,37 +1,38 @@
-You have an input dictionary given,
-
-input_dict = {"abc":{"def":{"ghi":{"jkl":{"mno":{"pqr":{"stu":{"vwx":{"yz":"you are finally here !!!"}}}}}}}}}
-
-Task:  You have to write a Python function that will take this input and print it like that,
-
-
 def print_transformed_dict(input_dict):
-    def transform_dict(d):
+    """
+    Recursively transforms a nested dictionary to print key hierarchies and final values easily.
+
+    Args:
+        input_dict (dict): The nested dictionary to transform.
+    """
+
+    def transform_dict(d, key_path=[]):
+        """
+        Recursively builds the transformed representation.
+
+        Args:
+            d (dict): The current sub-dictionary being processed.
+            key_path (list): The list of keys traversed to reach the current sub-dictionary.
+        """
+
         output = {}
-        key_path = []
+        for key, value in d.items():
+            key_path.append(key)
 
-        def build_output(current_dict):
-            if isinstance(current_dict, dict):
-                for key, value in current_dict.items():
-                    key_path.append(key)
-                    if isinstance(value, dict):
-                        build_output(value)
-                    else:
-                        # Handle the final value differently to include it in the output
-                        output[key_path[-1]] = [value]
-                    # Build the output for all keys in the path
-                    for i in range(len(key_path) - 1):
-                        output[key_path[i]] = key_path[i + 1:]
-                    key_path.pop()
+            if isinstance(value, dict): 
+                transform_dict(value, key_path)  # Recurse deeper in the dictionary
+            else:
+                output[key_path[-1]] = [value]  # Store the final value
+                # Cascade keys back up for path building
+                for i in range(len(key_path) - 1):
+                    output[key_path[i]] = key_path[i + 1:]
 
-        build_output(d)
+            key_path.pop()  # Remove the last added key after processing
+
         return output
 
     transformed_dict = transform_dict(input_dict)
-
-
-
     print(transformed_dict)
 
-# Use the function with the provided input dictionary
-print_transformed_dict({"abc":{"def":{"ghi":{"jkl":{"mno":{"pqr":{"stu":{"vwx":{"yz":"you are finally here !!!"}}}}}}}}})
+
+# Example Usage (same as before)
