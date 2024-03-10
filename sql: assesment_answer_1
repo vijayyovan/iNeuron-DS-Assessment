@@ -1,0 +1,18 @@
+Given the following tables:
+
+
+SELECT runners.* 
+FROM runners 
+LEFT JOIN races ON runners.id = races.winner_id 
+WHERE races.winner_id IS NULL;
+
+Another way to avoid NULL issue with NOT IN is to explicitly filter out NULL values from the subquery:
+
+SELECT * FROM runners 
+WHERE id NOT IN (
+  SELECT winner_id FROM races 
+  WHERE winner_id IS NOT NULL
+);
+
+
+
